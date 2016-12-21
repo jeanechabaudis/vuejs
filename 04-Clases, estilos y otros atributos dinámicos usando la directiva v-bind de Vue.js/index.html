@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Vue.js</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+	<div id="app" class="container-fluid">
+		<template v-if="name">
+			<h1 >{{ gender == 'm' ? 'Bienvenido' : 'Bienvenida' }}, {{ name }}</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla fuga sequi adipisci, praesentium ab in at tempore pariatur, incidunt velit soluta minima, alias autem accusamus repudiandae quibusdam vitae earum veniam.</p>
+			<p>Tu nombre al reves es: {{ name.split('').reverse().join('') }}</p>
+		</template>
+		<p v-else>Por favor escribe tu nombre</p>
+	
+		<form v-on:submit="signUp(false, $event)">
+			<input type="text" v-model="name" class="form-control" autofocus>
+			<p v-if="!name" class="alert alert-danger">
+				Este campo es obligatorio
+			</p>
+
+			<label>
+				Femenino
+				<input type="radio" value="f" name="gender" v-model="gender">
+			</label>
+
+			<label>
+				Masculino
+				<input type="radio" value="m" name="gender" v-model="gender">
+			</label>
+
+			<label>¿Cuantos años de experiencia tienes en PHP?</label>
+			<p>
+				Respuesta: {{ years_php }}
+
+				<button type="button" v-bind:class="{btn: true, 'btn-danger': years_php > 10}" v-bind:style="{'font-size': calculateFontSize()}" @click="addYear">+</button>
+
+				<button type="button" v-bind:disabled="years_php == 0" @click="subYear" class="btn btn-primary">-</button>
+			</p>
+
+			<p v-bind:title="years_php * 10">Pasa el cursor sobre este texto</p>
+
+			<hr>
+			<p v-show="name">
+				<button type="submit" class="btn btn-primary" >Registrate</button>
+				<button type="submit" class="btn btn-primary" v-on:click="signUp(true, $event)">Registrate y sal del sistema</button>
+			</p>
+		</form>
+
+		<hr>
+
+		<pre>{{ $data }}</pre>
+	</div>
+
+	<script src="../vue.js"></script>
+	<script>
+
+		new Vue({
+			el: "#app",
+			data: {
+				name: "",
+				gender: 'm',
+				years_php: 0
+			},
+			methods:{
+				signUp: function(logout, event){
+					event.preventDefault();
+
+					alert(this.name + "Te estamos registrando");
+					if (logout) {
+						alert("saliendo");
+					}
+				},
+				addYear: function(){
+					this.years_php++;
+				},
+				subYear: function(){
+					this.years_php--;
+				},
+				calculateFontSize: function(){
+					return 10+this.years_php+'px';
+				}
+			}
+		});
+		
+	</script>
+</body>
+</html>
