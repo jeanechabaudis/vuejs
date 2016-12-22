@@ -35,9 +35,10 @@
 
 			<hello-world></hello-world>
 
-			<years-exp tech="PHP" :years.sync="years_php"></years-exp>
+			<template v-for="tech in techs">
+				<years-exp :tech="tech.name" :years.sync="tech.years"></years-exp>
+			</template>
 
-			<years-exp tech="PHP" :years.sync="years_js"></years-exp>
 
 			<p v-bind:title="years_php * 10">Pasa el cursor sobre este texto</p>
 
@@ -100,8 +101,20 @@
 			data: {
 				name: "",
 				gender: 'm',
-				years_php: 1,
-				years_js: 1
+				techs: [
+					{
+						name: "PHP",
+						years: 1
+					},
+					{
+						name: "JS",
+						years: 1
+					},
+					{
+						name: "NODE",
+						years: 1
+					}
+				]
 			},
 			methods:{
 				signUp: function(logout, event){

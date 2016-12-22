@@ -10,7 +10,9 @@
 <body>
 	<div id="app" class="container-fluid">
 		<template v-if="name">
-			<welcome-message v-bind:name="name" v-bind:gender="gender"></welcome-message>
+			<h1>
+				{{ welcome_message }},{{ name }}
+			</h1>
 
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla fuga sequi adipisci, praesentium ab in at tempore pariatur, incidunt velit soluta minima, alias autem accusamus repudiandae quibusdam vitae earum veniam.</p>
 			<p>Tu nombre al reves es: {{ name.split('').reverse().join('') }}</p>
@@ -18,7 +20,16 @@
 		<p v-else>Por favor escribe tu nombre</p>
 	
 		<form v-on:submit="signUp(false, $event)">
-			<input type="text" v-model="name" class="form-control" autofocus>
+			<label>
+				Primer nombre
+				<input type="text" v-model="first_name" class="form-control" autofocus>
+			</label>
+
+			<label>
+				Apellido
+				<input type="text" v-model="last_name" class="form-control" autofocus>
+			</label>
+
 			<p v-if="!name" class="alert alert-danger">
 				Este campo es obligatorio
 			</p>
@@ -33,11 +44,15 @@
 				<input type="radio" value="m" name="gender" v-model="gender">
 			</label>
 
-			<hello-world></hello-world>
+			<label>
+				Hablas español?
+				<input type="checkbox" v-model="spanish">
+			</label>
 
-			<years-exp tech="PHP" :years.sync="years_php"></years-exp>
+			<template v-for="tech in techs">
+				<years-exp :tech="tech.name" :years.sync="tech.years"></years-exp>
+			</template>
 
-			<years-exp tech="PHP" :years.sync="years_js"></years-exp>
 
 			<p v-bind:title="years_php * 10">Pasa el cursor sobre este texto</p>
 
@@ -54,10 +69,6 @@
 	</div>
 
 	<script src="../vue.js"></script>
-
-	<script type="text/template" id="welcome_template">
-		<h1 >{{ gender == 'm' ? 'Bienvenido' : 'Bienvenida' }}, {{ name }}</h1>
-	</script>
 	
 	<script type="text/template" id="years_template">
 		<div>
@@ -72,15 +83,6 @@
 	</script>
 
 	<script>
-
-		Vue.component('hello-world',{
-			template: '<h2>Hola mundo</h2>'
-		});
-		
-		Vue.component('welcome-message',{
-			template: '#welcome_template',
-			props:['gender','name']
-		});
 
 		Vue.component('years-exp',{
 			template: '#years_template',
@@ -98,10 +100,43 @@
 		new Vue({
 			el: "#app",
 			data: {
-				name: "",
+				first_name: "",
+				last_name: "",
 				gender: 'm',
-				years_php: 1,
-				years_js: 1
+				spanish: true,
+				techs: [
+					{
+						name: "PHP",
+						years: 1
+					},
+					{
+						name: "JS",
+						years: 1
+					},
+					{
+						name: "NODE",
+						years: 1
+					}
+				]
+			},
+			computed:{
+				welcome_message: function(){
+					if (this.spanish) {
+						return this.gender == 'm' ? 'Bienvenido' : 'Bienvenida';
+					}
+					return 'Welcome';
+				},
+				name: function(){
+					if (this.first_name || this.last_name) {
+						return this.first_name + ' ' + this.last_name;
+					}
+					return '';
+				}
+			},
+			watch: {
+				first_name: function(first_name){
+					alert(first_name);
+				}
 			},
 			methods:{
 				signUp: function(logout, event){

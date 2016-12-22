@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Vue.js</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+	<div id="app" class="container-fluid">
+		<h1 >Bienvenido, {{ name }}</h1>
+
+		<ul v-for="note in notes">
+			<li>{{ $index }}  {{ note.text }} por {{ note.author }}</li>
+		</ul>
+
+		<form v-on:submit.prevent="createNote()">
+			<textarea v-model="new_note.text" class="form-control"></textarea>
+			
+			<hr>
+
+			<button type="submit" class="btn">Agregar nota</button>
+		</form>
+
+		<hr>
+
+		<pre>{{ $data | json }}</pre>
+	</div>
+
+	<script src="../vue.js"></script>
+	<script>
+
+		new Vue({
+			el: "#app",
+			data: {
+				notes:[
+					{
+						text: 'Lorem ipsum dolor sit amet, consectetur elit.',
+						author: 'jean 1'
+					},
+					{
+						text: 'Lorem ipsum dolor sit amet, consectetur adipisicing.',
+						author: 'jean 2'
+					},
+					{
+						text: 'Lorem ipsum dolor sit amet, adipisicing elit.',
+						author: 'jean 3'
+					}					
+				],
+				new_note: {
+					text: '',
+					author: 'jean'
+				}
+			},
+			methods: {
+				createNote: function(){
+					this.notes.push(this.new_note);
+
+					this.new_note = {
+						text: '',
+						author: 'jean'
+					}
+				}
+			}
+		});
+		
+	</script>
+</body>
+</html>
