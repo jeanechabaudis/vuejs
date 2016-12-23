@@ -62,7 +62,12 @@
 				<button type="submit" class="btn btn-primary" v-on:click="signUp(true, $event)">Registrate y sal del sistema</button>
 			</p>
 		</form>
-
+		
+		<h3>Tienes experiencia en:</h3>
+		<ul v-for="tech in techs | orderBy 'years' -1 | years">
+			<li>{{ tech.name }}</li>
+		</ul>
+		
 		<hr>
 
 		<pre>{{ $data | json }}</pre>
@@ -88,6 +93,12 @@
 			return value.split(' ').map(function(word){
 				return word.charAt(0).toUpperCase() + word.slice(1);
 			}).join(' ');
+		});
+
+		Vue.filter('years',function(techs){
+			return techs.filter(function (tech){
+				return tech.years > 0;
+			})
 		});
 
 		Vue.component('years-exp',{
@@ -120,7 +131,15 @@
 						years: 1
 					},
 					{
-						name: "NODE",
+						name: "HTML",
+						years: 1
+					},
+					{
+						name: "CSS",
+						years: 1
+					},
+					{
+						name: "MySQL",
 						years: 1
 					}
 				]
