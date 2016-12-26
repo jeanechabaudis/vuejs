@@ -18,8 +18,9 @@
 			</tr>
 			<tr v-for="note in notes" is="note-row" v-bind:note.sync="note" v-bind:categories="categories"></tr>
 			<tr>
-				<td><select-category></select-category></td>
-				<td></td>
+				<td><select-category v-bind:categories="categories" v-bind:id.sync="new_note.category_id"></select-category></td>
+				<td><input type="text" v-model="new_note.note" class="form-control"></td>
+				<td><a href="#" v-on:click="createNote()"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a></td>
 			</tr>
 		</table>
 	</div>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Vue.js</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+	<div id="app" class="container-fluid">
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Email</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="user in users">
+					<td>{{ user.name.first }} {{ user.name.last }}</td>
+					<td>{{ user.email }}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<hr>
+
+		<pre>{{ $data | json }}</pre>
+	</div>
+
+	<script src="../vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
+	<script>
+
+		new Vue({
+			el: 'body',
+			data: {
+				users: []
+			},
+			created: function(){
+				this.consulta();
+			},
+			methods: {
+				consulta: function(){
+					this.$http.get('https://randomuser.me/api/?results=10')
+						.then(function(response){
+							this.users = response.data.results;
+						},function(response){
+							console.log(response);
+						});
+				}
+			}
+		});
+		
+	</script>
+</body>
+</html>

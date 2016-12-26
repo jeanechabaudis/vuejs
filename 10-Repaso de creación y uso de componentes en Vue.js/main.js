@@ -45,21 +45,22 @@ Vue.component('note-row', {
 var vm = new Vue({
 	el: '#app',
 	data:{
+		new_note: {
+			note: '',
+			category_id: ''
+		},
 		notes:[
 			{
 				note: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet harum, eligendi delectus eius. Laboriosam corporis repellat voluptates quae molestiae cum doloremque nisi in harum. Odio dolore nam ullam. Numquam, amet.',
-				category_id: 1,
-				editing: false
+				category_id: 1
 			},
 			{
 				note: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet harum, eligendi delectus eius. Laboriosam corporis repellat voluptates quae molestiae cum doloremque nisi in harum. Odio dolore nam ullam. Numquam, amet.',
-				category_id: 2,
-				editing: false
+				category_id: 2
 			},
 			{
 				note: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet harum, eligendi delectus eius. Laboriosam corporis repellat voluptates quae molestiae cum doloremque nisi in harum. Odio dolore nam ullam. Numquam, amet.',
-				category_id: 3,
-				editing: false
+				category_id: 3
 			}
 		],
 		categories: [
@@ -82,7 +83,10 @@ var vm = new Vue({
 		]
 	},
 	methods: {
-		
+		createNote: function(){
+			this.notes.push(this.new_note);
+			this.new_note = {note: '', category_id: ''};
+		}
 	},
 	filters:{
 		
